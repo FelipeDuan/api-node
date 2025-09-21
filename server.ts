@@ -1,7 +1,20 @@
-const fastify = require("fastify");
-const crypto = require("crypto");
+// const fastify = require("fastify");
+// const crypto = require("crypto");
 
-const server = fastify();
+import fastify from "fastify";
+import crypto from "node:crypto";
+
+const server = fastify({
+  logger: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
+});
 
 const courses = [
   { id: "1", title: "Curso de NodeJS" },
@@ -14,7 +27,12 @@ server.get("/courses", () => {
 });
 
 server.get("/courses/:id", (req, reply) => {
-  const courseId = req.params.id;
+  type Params = {
+    id: string;
+  };
+
+  const params = req.params as Params;
+  const courseId = params.id;
 
   const course = courses.find((course) => course.id === courseId);
 
@@ -26,8 +44,14 @@ server.get("/courses/:id", (req, reply) => {
 });
 
 server.post("/courses", (req, reply) => {
+  type Body = {
+    title: string;
+  };
+
   const courseId = crypto.randomUUID();
-  const courseTitle = req.body.title;
+
+  const body = req.body as Body;
+  const courseTitle = body.title;
 
   if (!courseTitle) {
     return reply.status(400).send({ message: "Título obrigatório" });
