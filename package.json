@@ -6,7 +6,7 @@
   "scripts": {
     "pretest": "dotenv -e .env.test drizzle-kit migrate",
     "test": "dotenv -e .env.test vitest run --coverage",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsup src/server.ts --format cjs --platform node --target node22 --out-dir dist --clean",
     "start": "node dist/server.js",
     "dev": "tsx watch -r dotenv/config src/server.ts",
     "db:generate": "drizzle-kit generate",
@@ -41,6 +41,7 @@
     "dotenv-cli": "^10.0.0",
     "drizzle-kit": "^0.31.4",
     "supertest": "^7.1.4",
+    "tsup": "^8.5.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
