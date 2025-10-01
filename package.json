@@ -6,6 +6,8 @@
   "scripts": {
     "pretest": "dotenv -e .env.test drizzle-kit migrate",
     "test": "dotenv -e .env.test vitest run --coverage",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
     "dev": "tsx watch -r dotenv/config src/server.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
